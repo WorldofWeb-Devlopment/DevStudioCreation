@@ -1,0 +1,6 @@
+{
+  "name": "DevStudioCreations",
+  "description": "DevStudioCreations – Creative digital studio specializing in high-performance websites, custom web applications, graphic design, and video editing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
