@@ -12,6 +12,7 @@ const TARGET_EMAIL = 'aravindbusiness7@gmail.com';
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [idea, setIdea] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'submitted'>('idle');
   const [error, setError] = useState('');
@@ -57,6 +58,7 @@ export const ContactSection: React.FC = () => {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
+          mobile: mobile.trim() || 'Not provided',
           message: idea.trim(),
           _subject: `New DevStudioCreations Enquiry from ${name.trim()}`,
           _replyto: email.trim(),
@@ -67,6 +69,7 @@ export const ContactSection: React.FC = () => {
       // Clear fields and transition to submitted state
       setName('');
       setEmail('');
+      setMobile('');
       setIdea('');
       setStatus('submitted');
     } catch (err) {
@@ -74,6 +77,7 @@ export const ContactSection: React.FC = () => {
       // Still show submitted confirmation and clear fields
       setName('');
       setEmail('');
+      setMobile('');
       setIdea('');
       setStatus('submitted');
     }
@@ -131,6 +135,21 @@ export const ContactSection: React.FC = () => {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="Email"
+              disabled={status === 'submitting' || status === 'submitted'}
+              className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm disabled:opacity-60"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="mobile-input" className="sr-only">
+              Mobile Number
+            </label>
+            <input
+              id="mobile-input"
+              type="tel"
+              value={mobile}
+              onChange={e => setMobile(e.target.value)}
+              placeholder="Mobile No"
               disabled={status === 'submitting' || status === 'submitted'}
               className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm disabled:opacity-60"
             />
