@@ -1,220 +1,266 @@
-import React, { useState } from 'react';
-import { RotateCw, RotateCcw, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
-import FlipCard from './FlipCard.jsx';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, Eye, X, ArrowUpRight, CheckCircle2, Globe } from 'lucide-react';
 
-interface Project {
+interface WebsiteProject {
   id: string;
   title: string;
-  category: string;
+  category: 'Website Development';
   tag: string;
   summary: string;
-  highlights: string[];
-  gradient: string;
+  image: string;
+  deliverables: string[];
+  techStack: string[];
+  liveUrl?: string;
 }
 
 export const WorkSection: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('All');
+  const [selectedProject, setSelectedProject] = useState<WebsiteProject | null>(null);
 
-  const projects: Project[] = [
+  // Close modal on Escape key press and prevent background scrolling
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      }
+    };
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProject]);
+
+  const websiteProjects: WebsiteProject[] = [
     {
       id: 'apex-cloud',
       title: 'Apex Cloud Platform',
-      category: 'Websites',
-      tag: 'Next-Gen SaaS',
-      summary: 'Ultra-fast responsive marketing portal with interactive pricing and onboarding flows.',
-      highlights: ['99.9% uptime SLA guaranteed', '0.4s initial load time worldwide', 'Dynamic design tokens & dark mode'],
-      gradient: 'from-orange-500/20 via-amber-500/10 to-transparent',
+      category: 'Website Development',
+      tag: 'Next-Gen SaaS Portal',
+      summary: 'High-conversion marketing portal with real-time tier calculators, dark mode architecture, and interactive customer onboarding.',
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+      deliverables: [
+        '99.9% uptime SLA architecture',
+        '0.4s initial load time worldwide',
+        'Tailwind CSS & Next.js responsiveness',
+        'Interactive pricing calculators',
+      ],
+      techStack: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript'],
+      liveUrl: '#',
     },
     {
-      id: 'lumina-film',
-      title: 'Lumina Cinema Trailer',
-      category: 'Video Editing',
-      tag: 'Commercial 4K',
-      summary: 'High-energy cinematic teaser with bespoke sound design and 3D camera projections.',
-      highlights: ['Motion tracking & 3D VFX', 'Custom Hollywood color grade', 'Spatial Dolby Atmos sound mix'],
-      gradient: 'from-cyan-500/20 via-blue-500/10 to-transparent',
-    },
-    {
-      id: 'vanguard-brand',
-      title: 'Vanguard Visual Identity',
-      category: 'Graphic Design',
-      tag: 'Brand System',
-      summary: 'End-to-end design guideline, typography system, digital stationery, and merchandise kit.',
-      highlights: ['Vector master logo suite', 'Design system token library', 'Social media marketing kit'],
-      gradient: 'from-amber-500/20 via-orange-500/10 to-transparent',
-    },
-    {
-      id: 'flow-analytics',
-      title: 'Flow Operations Suite',
-      category: 'Custom Apps',
-      tag: 'Workflow Dashboard',
-      summary: 'Custom operational workspace enabling real-time inventory and delivery telemetry.',
-      highlights: ['Real-time WebSocket telemetry', 'Automated data export pipelines', 'Granular RBAC team permissions'],
-      gradient: 'from-emerald-500/20 via-teal-500/10 to-transparent',
+      id: 'lumina-studio',
+      title: 'Lumina Creative Studio',
+      category: 'Website Development',
+      tag: 'Agency Portfolio Website',
+      summary: 'Minimalist, interactive portfolio website featuring fluid typography, bespoke grid layouts, and high-performance animations that drive conversions.',
+      image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200&auto=format&fit=crop',
+      deliverables: [
+        'Fluid responsive layout across mobile and desktop',
+        'Sub-second page speeds with optimized assets',
+        'Accessible semantic HTML and SEO metadata',
+        'Smooth scroll transitions and micro-interactions',
+      ],
+      techStack: ['React', 'TypeScript', 'Motion', 'Vite'],
+      liveUrl: '#',
     },
   ];
-
-  const categories = ['All', 'Websites', 'Custom Apps', 'Video Editing', 'Graphic Design'];
-
-  const filteredProjects = activeFilter === 'All'
-    ? projects
-    : projects.filter(p => p.category === activeFilter);
 
   return (
     <section id="work" className="py-20 md:py-28 px-4 md:px-8 bg-[#FAF7F2]">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111113] tracking-tight">
-            Ideas We've Brought To Life
-          </h2>
-          <p className="mt-3 text-xs sm:text-sm md:text-base text-neutral-600 max-w-xl mx-auto">
-            Explore Our Selected Projects And Discover How We Turn Creative Ideas Into Meaningful Digital Experiences.
+        <div className="text-center mb-16">
+          <p className="text-xs font-bold tracking-[0.25em] text-neutral-500 uppercase mb-3">
+            OUR WORK
           </p>
-
-          {/* Filter Pills */}
-          <div className="mt-8 flex flex-wrap justify-center gap-2">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeFilter === cat
-                    ? 'bg-[#121214] text-white shadow-sm'
-                    : 'bg-white text-neutral-600 hover:text-black border border-neutral-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          <p className="mt-4 text-[11px] font-mono text-neutral-500 flex items-center justify-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-            <span>Click or drag any card to flip and inspect project specifications</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111113] tracking-tight">
+            Websites We've Brought To Life
+          </h2>
+          <p className="mt-3 text-xs sm:text-sm md:text-base text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+            Explore our website development projects, where creativity meets functionality to create meaningful digital experiences.
           </p>
         </div>
 
-        {/* 4 Cards Grid using FlipCard component */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 justify-items-center">
-          {filteredProjects.map((project) => {
-            const frontFace = (
-              <div className="w-full h-full p-6 sm:p-8 flex flex-col justify-between relative bg-gradient-to-br from-[#0c0c0e] via-[#101014] to-[#0c0c0e] select-none text-left">
-                {/* Ambient glow highlight */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-25 pointer-events-none`} />
+        {/* Two-column Bento Grid on desktop, single-column on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          {websiteProjects.map((project) => (
+            <div
+              key={project.id}
+              className="group bg-white rounded-3xl p-6 sm:p-7 border border-[#E7E1D8] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-hidden"
+            >
+              {/* Card Thumbnail / Large Screenshot */}
+              <div
+                onClick={() => setSelectedProject(project)}
+                className="w-full aspect-[16/10] rounded-2xl overflow-hidden relative cursor-pointer bg-neutral-900 border border-neutral-200/80 shadow-inner group/thumb"
+              >
+                <img
+                  src={project.image}
+                  alt={`${project.title} Website Screenshot`}
+                  className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-700 brightness-95"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover/thumb:opacity-90 transition-opacity" />
 
-                {/* Front Top row */}
-                <div className="relative z-10 flex items-center justify-between">
-                  <span className="text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/10 text-neutral-300 font-semibold border border-white/10 backdrop-blur-xs">
+                {/* Top Badge Overlay */}
+                <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
+                  <span className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider bg-black/60 backdrop-blur-md text-white border border-white/10">
                     {project.tag}
                   </span>
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-400 text-xs font-mono hover:text-orange-400 transition-colors">
-                    <span>Preview</span>
-                    <RotateCw className="w-3.5 h-3.5 text-orange-500" />
+                  <span className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover/thumb:bg-orange-500 group-hover/thumb:border-orange-500 transition-colors">
+                    <Eye className="w-4 h-4" />
                   </span>
                 </div>
 
-                {/* Front Middle/Bottom info */}
-                <div className="relative z-10">
-                  <p className="text-xs text-orange-400 font-mono font-medium tracking-wide uppercase">
-                    {project.category}
-                  </p>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                    {project.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs sm:text-sm text-neutral-400 line-clamp-2 leading-relaxed">
-                    {project.summary}
-                  </p>
-                  <div className="mt-3 flex items-center gap-1.5 text-[11px] font-mono text-orange-400/90 font-medium">
-                    <span>Click to flip preview</span>
-                    <ArrowRight className="w-3 h-3 text-orange-500" />
-                  </div>
+                {/* Bottom Overlay Label */}
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white z-10">
+                  <span className="text-xs font-mono text-orange-400 font-medium flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5" />
+                    <span>Website Development</span>
+                  </span>
+                  <span className="text-[11px] font-mono text-white/80 underline decoration-orange-500 underline-offset-4">
+                    Click to view preview
+                  </span>
                 </div>
               </div>
-            );
 
-            const backFace = (
-              <div className="w-full h-full p-6 sm:p-8 flex flex-col justify-between relative bg-[#0a0a0d] select-none text-left border border-orange-500/30">
-                {/* Back Ambient Glow */}
-                <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-orange-500/15 blur-2xl pointer-events-none" />
-
-                {/* Back Top row */}
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-mono text-orange-400 font-bold uppercase tracking-wider">
-                      {project.category} // {project.tag}
+              {/* Card Meta Content */}
+              <div className="mt-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-semibold uppercase tracking-wider text-orange-600">
+                      {project.category}
                     </span>
-                    <span className="flex items-center gap-1 text-[11px] font-mono text-neutral-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
-                      <RotateCcw className="w-3 h-3 text-orange-500" />
-                      <span>Back</span>
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      {project.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-0.5 rounded text-[10px] font-mono text-neutral-600 bg-neutral-100"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#111113] group-hover:text-orange-500 transition-colors mt-2">
                     {project.title}
                   </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-neutral-300 leading-relaxed">
+
+                  <p className="mt-2 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
                     {project.summary}
                   </p>
                 </div>
 
-                {/* Key Deliverables */}
-                <div className="relative z-10 my-2">
-                  <h4 className="text-[11px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-2">
-                    KEY DELIVERABLES
-                  </h4>
-                  <ul className="space-y-1.5">
-                    {project.highlights.map((h, i) => (
-                      <li key={i} className="text-xs text-neutral-300 flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Action button */}
+                <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-neutral-900 bg-neutral-100 hover:bg-neutral-900 hover:text-white transition-all cursor-pointer active:scale-95"
+                    aria-label={`View ${project.title} project details`}
+                  >
+                    <span>View Project</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </button>
 
-                {/* Back Footer */}
-                <div className="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
-                  <span className="font-mono text-[11px] text-orange-400">DEVSTUDIO CREATIONS</span>
-                  <span className="text-[11px] text-neutral-400 font-mono flex items-center gap-1">
-                    <span>Click to flip front</span>
-                    <RotateCcw className="w-3 h-3 text-orange-500" />
+                  <span className="text-xs font-mono text-neutral-400">
+                    Live Client Build
                   </span>
                 </div>
               </div>
-            );
-
-            return (
-              <div key={project.id} className="w-full flex justify-center">
-                <FlipCard
-                  front={frontFace}
-                  back={backFace}
-                  axis="y"
-                  flipOnClick={true}
-                  draggable={true}
-                  tilt={true}
-                  tiltMax={12}
-                  glare={true}
-                  glareOpacity={0.22}
-                  hoverScale={1.02}
-                  perspective={1100}
-                  stiffness={180}
-                  damping={22}
-                  width={480}
-                  height={340}
-                  radius={24}
-                  background="#0c0c0e"
-                  color="#ffffff"
-                  shadow={true}
-                  shadowColor="#000000"
-                  shadowOpacity={0.5}
-                  ariaLabel={`${project.title} card - click to flip details`}
-                  className="w-full !max-w-full"
-                />
-              </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Project Detail Modal with Fixed Close Button & Backdrop Dismiss */}
+      {selectedProject && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedProject(null);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedProject.title} project details`}
+        >
+          <div className="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-neutral-200 relative overflow-hidden flex flex-col max-h-[92vh]">
+            {/* Highly visible, elevated close button in top-right */}
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-neutral-800 hover:text-black shadow-lg border border-neutral-200/80 flex items-center justify-center transition-all cursor-pointer hover:scale-110 active:scale-95"
+              aria-label="Close project modal"
+            >
+              <X className="w-5 h-5 stroke-[2.5]" />
+            </button>
+
+            {/* Scrollable content area */}
+            <div className="overflow-y-auto p-6 sm:p-8">
+              {/* Modal Image */}
+              <div className="w-full h-48 sm:h-56 rounded-2xl overflow-hidden relative mb-5 bg-neutral-900 border border-neutral-200 shadow-inner">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4">
+                  <span className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">
+                    {selectedProject.category} // {selectedProject.tag}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-0.5">
+                    {selectedProject.title}
+                  </h3>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                {selectedProject.summary}
+              </p>
+
+              <div className="mt-5">
+                <h4 className="text-xs font-bold text-neutral-900 uppercase tracking-wider mb-2 font-mono">
+                  Key Deliverables
+                </h4>
+                <ul className="space-y-2">
+                  {selectedProject.deliverables.map((item, i) => (
+                    <li key={i} className="text-xs text-neutral-700 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {selectedProject.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 rounded-md text-[11px] font-mono text-neutral-700 bg-neutral-100 font-medium"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Primary Close Button at modal bottom */}
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="px-6 py-2.5 rounded-full bg-[#121214] hover:bg-neutral-800 text-white text-xs font-bold cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-1.5 ml-auto"
+                >
+                  <span>Close Preview</span>
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

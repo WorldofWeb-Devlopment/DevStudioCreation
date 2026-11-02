@@ -1,9 +1,117 @@
 import React from 'react';
-import { Globe, Video, Palette, Code2, ArrowUpRight } from 'lucide-react';
+import { Globe, Video, Palette, Code2, ArrowRight } from 'lucide-react';
+
+interface ServiceItem {
+  id: string;
+  number: string;
+  title: string;
+  status: 'AVAILABLE NOW' | 'COMING SOON';
+  description: string;
+  tags: string[];
+  image: string;
+  imageAlt: string;
+  projectTag: string;
+  meta: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 export const ServicesSection: React.FC = () => {
+  const scrollToContact = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const services: ServiceItem[] = [
+    {
+      id: 'website-dev',
+      number: '01',
+      title: 'Website Development',
+      status: 'AVAILABLE NOW',
+      description: 'We build modern, responsive websites that turn visitors into customers.',
+      tags: ['Business Websites', 'Landing Pages', 'Portfolio Websites', 'Website Redesign'],
+      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',
+      imageAlt: 'Apex Cloud SaaS Website Development',
+      projectTag: 'Apex Cloud Portal',
+      meta: 'Next.js · Responsive',
+      icon: Globe,
+    },
+    {
+      id: 'video-editing',
+      number: '02',
+      title: 'Video Editing',
+      status: 'COMING SOON',
+      description: 'Engaging visual stories that capture attention and communicate your brand.',
+      tags: ['Reels', 'YouTube Videos', 'Promotional Videos', 'Motion Graphics'],
+      image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop',
+      imageAlt: 'Lumina Cinema Trailer 4K Video Editing',
+      projectTag: 'Lumina 4K Cinema',
+      meta: 'Color Grading · VFX',
+      icon: Video,
+    },
+    {
+      id: 'graphic-design',
+      number: '03',
+      title: 'Graphic Design',
+      status: 'COMING SOON',
+      description: 'Creative designs that make your brand memorable and recognizable.',
+      tags: ['Logo Design', 'Branding', 'Posters', 'Social Media Posters'],
+      image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=800&auto=format&fit=crop',
+      imageAlt: 'Vanguard Brand Identity Graphic Design',
+      projectTag: 'Vanguard System',
+      meta: 'Identity · Typography',
+      icon: Palette,
+    },
+    {
+      id: 'custom-web-apps',
+      number: '04',
+      title: 'Custom Web Applications',
+      status: 'COMING SOON',
+      description: 'Smart digital tools that simplify workflows and solve business challenges.',
+      tags: ['Dashboards', 'Admin Panels', 'Management Systems', 'Custom Tools'],
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop',
+      imageAlt: 'Flow Operations Telemetry Suite',
+      projectTag: 'Flow Suite',
+      meta: 'Real-time Telemetry',
+      icon: Code2,
+    },
+  ];
+
+  const renderBadge = (status: 'AVAILABLE NOW' | 'COMING SOON') => {
+    if (status === 'AVAILABLE NOW') {
+      return (
+        <span
+          className="inline-flex items-center px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-white shadow-sm transition-all duration-300 hover:brightness-110"
+          style={{ backgroundColor: '#16A34A' }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-white mr-1.5 animate-pulse" />
+          AVAILABLE NOW
+        </span>
+      );
+    }
+
+    return (
+      <span
+        className="inline-flex items-center px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase transition-all duration-300 hover:bg-[#FF7900]/10"
+        style={{
+          backgroundColor: '#F8F5EF',
+          color: '#FF7900',
+          border: '1px solid #FF7900',
+        }}
+      >
+        COMING SOON
+      </span>
+    );
+  };
+
+  const websiteService = services[0];
+  const videoService = services[1];
+  const graphicService = services[2];
+  const customAppService = services[3];
+
   return (
-    <section id="services" className="py-20 md:py-28 px-4 md:px-8 bg-[#FAF7F2] border-t border-neutral-200/60">
+    <section id="services" className="py-20 md:py-28 px-4 md:px-8 bg-[#F8F5EF] border-t border-[#E7E1D8]">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -13,194 +121,262 @@ export const ServicesSection: React.FC = () => {
           <p className="text-xs sm:text-sm font-semibold text-neutral-600 mb-1">
             What We Do
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111113] tracking-tight">
-            Your Vision.<span className="text-orange-500">Our Creativity</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111111] tracking-tight">
+            Your Vision.<span style={{ color: '#FF7900' }}>Our Creativity</span>
           </h2>
           <p className="mt-3 text-xs sm:text-sm md:text-base text-neutral-600 max-w-xl mx-auto">
             From Websites And Branding To Videos And Digital Experiences, We're Here To Bring Your Ideas To Life.
           </p>
         </div>
 
-        {/* Services Grid with project-matched imagery */}
+        {/* Services Bento Grid */}
         <div className="space-y-8 sm:space-y-12">
-          {/* Row 1: Website Development (Apex Cloud Platform matching) */}
+          {/* Row 1: Website Development (AVAILABLE NOW) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
-            {/* Card */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+            {/* Card - Without extra button inside the card */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E7E1D8] shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-lg sm:text-xl font-bold text-neutral-900 group-hover:text-orange-500 transition-colors">
-                  Website Development
-                </span>
-                <div className="w-9 h-9 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-                  <Globe className="w-5 h-5" />
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-neutral-400">
+                    {websiteService.number}.
+                  </span>
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
+                    {websiteService.title}
+                  </span>
                 </div>
+                {renderBadge(websiteService.status)}
               </div>
 
               {/* Project-matched Image */}
               <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-neutral-900 border border-neutral-200/80 shadow-inner">
                 <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
-                  alt="Apex Cloud SaaS Website Development"
+                  src={websiteService.image}
+                  alt={websiteService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-orange-400">
-                    Apex Cloud Portal
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">
+                    {websiteService.projectTag}
                   </span>
                   <span className="text-[10px] font-mono text-white/70">
-                    Next.js · Responsive
+                    {websiteService.meta}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-4 text-xs text-neutral-500 font-mono tracking-tight">
-                Business Websites · Landing Pages · Portfolio Websites · Website Redesign
-              </p>
+              {/* Card Footer tags without the inner button */}
+              <div className="mt-3">
+                <div className="pt-2 flex items-center justify-between">
+                  <p className="text-xs text-neutral-500 font-mono tracking-tight">
+                    {websiteService.tags.join(' · ')}
+                  </p>
+                  <span className="text-[11px] font-mono font-semibold text-emerald-600">
+                    Active Service
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Text description */}
+            {/* Text description with the main CTA */}
             <div className="md:pl-4">
-              <span className="text-xs font-mono text-orange-500 uppercase tracking-widest font-bold">
-                HIGH-CONVERSION ARCHITECTURE
+              <span
+                className="text-xs font-mono uppercase tracking-widest font-bold text-emerald-600"
+              >
+                AVAILABLE NOW
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111113] leading-snug mt-1">
-                We Build Modern, Responsive Websites That Turn Visitors Into Customers.
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111111] leading-snug mt-1">
+                {websiteService.description}
               </h3>
               <p className="mt-3 text-sm text-neutral-600 leading-relaxed font-normal">
                 Engineered for lightning speeds, dynamic dark modes, and effortless user onboarding. Every website is custom-crafted to scale alongside your ambition.
               </p>
-              <p className="mt-4 text-xs text-neutral-500 font-mono">
-                Business Websites · Landing Pages · Portfolio Websites · Website Redesign
-              </p>
+              <div className="mt-5 flex items-center gap-4">
+                <button
+                  onClick={scrollToContact}
+                  className="px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center gap-2"
+                  style={{
+                    backgroundColor: '#FF7900',
+                    boxShadow: '0 4px 14px rgba(255, 121, 0, 0.3)',
+                  }}
+                >
+                  <span>Let's Start Your Project</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <span className="text-xs font-mono text-neutral-500">
+                  Accepting Q1 Projects
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Row 2: Video Editing & Graphic Design (Two Columns) */}
+          {/* Row 2: Video Editing & Graphic Design (COMING SOON) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Video Editing (Lumina Cinema Trailer matching) */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+            {/* Video Editing */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E7E1D8] shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-lg sm:text-xl font-bold text-neutral-900 group-hover:text-orange-500 transition-colors">
-                  Video Editing
-                </span>
-                <div className="w-9 h-9 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-                  <Video className="w-5 h-5" />
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-neutral-400">
+                    {videoService.number}.
+                  </span>
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
+                    {videoService.title}
+                  </span>
                 </div>
+                {renderBadge(videoService.status)}
               </div>
 
               {/* Project-matched Image */}
               <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-neutral-900 border border-neutral-200/80 shadow-inner">
                 <img
-                  src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop"
-                  alt="Lumina Cinema Trailer 4K Video Editing"
+                  src={videoService.image}
+                  alt={videoService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-orange-400">
-                    Lumina 4K Cinema
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">
+                    {videoService.projectTag}
                   </span>
                   <span className="text-[10px] font-mono text-white/70">
-                    Color Grading · VFX
+                    {videoService.meta}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-4 text-xs text-neutral-500 font-mono tracking-tight">
-                Reels · YouTube Videos · Promotional Videos · Motion Graphics
-              </p>
+              <div className="mt-3">
+                <p className="text-sm text-neutral-700 leading-snug">
+                  {videoService.description}
+                </p>
+                <div className="mt-3 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                  <p className="text-xs text-neutral-500 font-mono tracking-tight">
+                    {videoService.tags.join(' · ')}
+                  </p>
+                  <span className="text-[11px] font-mono text-neutral-400 italic">
+                    Opening Soon
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Graphic Design (Vanguard Visual Identity matching) */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+            {/* Graphic Design */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E7E1D8] shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-lg sm:text-xl font-bold text-neutral-900 group-hover:text-orange-500 transition-colors">
-                  Graphic Design
-                </span>
-                <div className="w-9 h-9 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-                  <Palette className="w-5 h-5" />
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-neutral-400">
+                    {graphicService.number}.
+                  </span>
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
+                    {graphicService.title}
+                  </span>
                 </div>
+                {renderBadge(graphicService.status)}
               </div>
 
               {/* Project-matched Image */}
               <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-neutral-900 border border-neutral-200/80 shadow-inner">
                 <img
-                  src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=800&auto=format&fit=crop"
-                  alt="Vanguard Brand Identity Graphic Design"
+                  src={graphicService.image}
+                  alt={graphicService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-95"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-orange-400">
-                    Vanguard System
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">
+                    {graphicService.projectTag}
                   </span>
                   <span className="text-[10px] font-mono text-white/70">
-                    Identity · Typography
+                    {graphicService.meta}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-4 text-xs text-neutral-500 font-mono tracking-tight">
-                Logo Design · Branding · Posters · Social Media Posters
-              </p>
+              <div className="mt-3">
+                <p className="text-sm text-neutral-700 leading-snug">
+                  {graphicService.description}
+                </p>
+                <div className="mt-3 pt-3 border-t border-neutral-100 flex items-center justify-between">
+                  <p className="text-xs text-neutral-500 font-mono tracking-tight">
+                    {graphicService.tags.join(' · ')}
+                  </p>
+                  <span className="text-[11px] font-mono text-neutral-400 italic">
+                    Opening Soon
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Row 3: Custom Web Applications (Flow Operations Suite matching) */}
+          {/* Row 3: Custom Web Applications (COMING SOON) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
             {/* Text description */}
             <div className="order-2 md:order-1 md:pr-4">
-              <span className="text-xs font-mono text-orange-500 uppercase tracking-widest font-bold">
-                ENTERPRISE WORKFLOWS
+              <span
+                className="text-xs font-mono uppercase tracking-widest font-bold"
+                style={{ color: '#FF7900' }}
+              >
+                UPCOMING SERVICE
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111113] leading-snug mt-1">
-                We Develop Smart Digital Tools That Simplify Workflows And Solve Business Challenges.
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111111] leading-snug mt-1">
+                {customAppService.description}
               </h3>
               <p className="mt-3 text-sm text-neutral-600 leading-relaxed font-normal">
                 Real-time operational workspaces, telemetry dashboards, and bespoke automation pipelines that eliminate friction and give teams superpowers.
               </p>
-              <p className="mt-4 text-xs text-neutral-500 font-mono">
-                Dashboards · Admin Panels · Management Systems · Custom Tools
-              </p>
+              <div className="mt-4 flex items-center gap-3">
+                {renderBadge(customAppService.status)}
+                <span className="text-xs font-mono text-neutral-500">
+                  Currently in internal private alpha
+                </span>
+              </div>
             </div>
 
             {/* Card */}
-            <div className="order-1 md:order-2 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-neutral-200 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+            <div className="order-1 md:order-2 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E7E1D8] shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-lg sm:text-xl font-bold text-neutral-900 group-hover:text-orange-500 transition-colors">
-                  Custom Web Applications
-                </span>
-                <div className="w-9 h-9 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
-                  <Code2 className="w-5 h-5" />
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-neutral-400">
+                    {customAppService.number}.
+                  </span>
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
+                    {customAppService.title}
+                  </span>
                 </div>
+                {renderBadge(customAppService.status)}
               </div>
 
               {/* Project-matched Image */}
               <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-neutral-900 border border-neutral-200/80 shadow-inner">
                 <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
-                  alt="Flow Operations Telemetry Suite"
+                  src={customAppService.image}
+                  alt={customAppService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-orange-400">
-                    Flow Suite
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">
+                    {customAppService.projectTag}
                   </span>
                   <span className="text-[10px] font-mono text-white/70">
-                    Real-time Telemetry
+                    {customAppService.meta}
                   </span>
                 </div>
               </div>
 
-              <p className="mt-4 text-xs text-neutral-500 font-mono tracking-tight">
-                Dashboards · Admin Panels · Management Systems · Custom Tools
-              </p>
+              <div className="mt-3">
+                <div className="pt-2 flex items-center justify-between">
+                  <p className="text-xs text-neutral-500 font-mono tracking-tight">
+                    {customAppService.tags.join(' · ')}
+                  </p>
+                  <span className="text-[11px] font-mono text-neutral-400 italic">
+                    Opening Soon
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
