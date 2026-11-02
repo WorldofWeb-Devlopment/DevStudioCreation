@@ -3,27 +3,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { MarqueeBanner } from './components/MarqueeBanner';
-import { AboutSection } from './components/AboutSection';
-import { ServicesSection } from './components/ServicesSection';
-import { CtaBanner } from './components/CtaBanner';
-import { WorkSection } from './components/WorkSection';
-import { ContactSection } from './components/ContactSection';
+
+// Code-split below-the-fold components to minimize initial bundle size and main-thread parsing time
+const AboutSection = React.lazy(() => import('./components/AboutSection').then(m => ({ default: m.AboutSection })));
+const ServicesSection = React.lazy(() => import('./components/ServicesSection').then(m => ({ default: m.ServicesSection })));
+const CtaBanner = React.lazy(() => import('./components/CtaBanner').then(m => ({ default: m.CtaBanner })));
+const WorkSection = React.lazy(() => import('./components/WorkSection').then(m => ({ default: m.WorkSection })));
+const ContactSection = React.lazy(() => import('./components/ContactSection').then(m => ({ default: m.ContactSection })));
+
 
 export default function App() {
   const checkInitialAutostart = () => {
     if (typeof window === 'undefined') return 1;
     const params = new URLSearchParams(window.location.search);
-    if (params.get('autostart') === '1' || window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) {
+    if (params.get('autostart') === '1' || params.get('skipIntro') === '1') {
       return 5;
     }
     const freeze = params.get('freezePhase');
     if (freeze) return parseInt(freeze, 10);
     return 1;
   };
+
 
   const [introKey, setIntroKey] = useState<number>(0);
   const [currentPhase, setCurrentPhase] = useState<number>(() => checkInitialAutostart());
@@ -38,6 +42,26 @@ export default function App() {
   const handlePhaseChange = useCallback((phase: number) => {
     setCurrentPhase(phase);
   }, []);
+
+
+  // Preload below-the-fold modules during idle time or when intro reaches phase 2
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const preload = () => {
+      import('./components/AboutSection');
+      import('./components/ServicesSection');
+      import('./components/CtaBanner');
+      import('./components/WorkSection');
+      import('./components/ContactSection');
+    };
+    if (currentPhase >= 2) {
+      preload();
+    } else if ('requestIdleCallback' in window) {
+      const handle = (window as any).requestIdleCallback(preload, { timeout: 3000 });
+      return () => (window as any).cancelIdleCallback(handle);
+    }
+  }, [currentPhase]);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#111113] selection:bg-orange-500 selection:text-white flex flex-col relative font-sans">
@@ -69,13 +93,16 @@ export default function App() {
             currentPhase >= 4 ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <AboutSection />
-          <ServicesSection />
-          <CtaBanner />
-          <WorkSection />
-          <ContactSection />
+          <Suspense fallback={<div className="min-h-96" aria-hidden="true" />}>
+            <AboutSection />
+            <ServicesSection />
+            <CtaBanner />
+            <WorkSection />
+            <ContactSection />
+          </Suspense>
         </div>
       </main>
     </div>
   );
 }
+

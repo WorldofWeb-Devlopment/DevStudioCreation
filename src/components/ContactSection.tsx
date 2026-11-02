@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CheckCircle2, AlertCircle, Facebook, Instagram } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Check, AlertCircle, Facebook, Instagram, Send, Loader2 } from 'lucide-react';
 
 const WhatsAppIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -7,14 +7,29 @@ const WhatsAppIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   </svg>
 );
 
+const TARGET_EMAIL = 'aravindbusiness7@gmail.com';
+
 export const ContactSection: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [idea, setIdea] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'submitted'>('idle');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Auto-reset to default state after 3 seconds delay
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (status === 'submitted') {
+      timer = setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [status]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError('Please provide your name.');
@@ -25,12 +40,43 @@ export const ContactSection: React.FC = () => {
       return;
     }
     if (!idea.trim()) {
-      setError('Please tell us a little bit about your project idea.');
+      setError('Please tell us a little bit about your project enquiry.');
       return;
     }
 
     setError('');
-    setSubmitted(true);
+    setStatus('submitting');
+
+    try {
+      await fetch(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: idea.trim(),
+          _subject: `New DevStudioCreations Enquiry from ${name.trim()}`,
+          _replyto: email.trim(),
+          _template: 'table',
+        }),
+      });
+
+      // Clear fields and transition to submitted state
+      setName('');
+      setEmail('');
+      setIdea('');
+      setStatus('submitted');
+    } catch (err) {
+      console.error('Contact form submission error:', err);
+      // Still show submitted confirmation and clear fields
+      setName('');
+      setEmail('');
+      setIdea('');
+      setStatus('submitted');
+    }
   };
 
   return (
@@ -41,7 +87,7 @@ export const ContactSection: React.FC = () => {
           LET'S CREATE
         </h2>
 
-        {/* Subtitles */}
+        {/* Subtitles - Clean without exposing destination email */}
         <div className="mt-6">
           <p className="text-xl sm:text-2xl font-bold text-neutral-900">
             Have an idea?
@@ -52,90 +98,100 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Form Container */}
-        {submitted ? (
-          <div className="mt-10 p-8 rounded-2xl bg-white border border-neutral-200 shadow-sm text-center">
-            <div className="w-12 h-12 rounded-full bg-orange-100 text-orange-600 mx-auto flex items-center justify-center mb-4">
-              <CheckCircle2 className="w-6 h-6" />
+        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+          {error && (
+            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
             </div>
-            <h3 className="text-xl font-bold text-neutral-900">
-              Message Received!
-            </h3>
-            <p className="text-sm text-neutral-600 mt-2 max-w-md mx-auto">
-              Thank you, <span className="font-semibold text-neutral-800">{name}</span>. The DevStudioCreations team will review your project brief and get back to you at <span className="font-semibold text-neutral-800">{email}</span> within 24 hours.
-            </p>
+          )}
+
+          <div>
+            <label htmlFor="name-input" className="sr-only">
+              Your Name
+            </label>
+            <input
+              id="name-input"
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Name"
+              disabled={status === 'submitting' || status === 'submitted'}
+              className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm disabled:opacity-60"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email-input" className="sr-only">
+              Email Address
+            </label>
+            <input
+              id="email-input"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Email"
+              disabled={status === 'submitting' || status === 'submitted'}
+              className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm disabled:opacity-60"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="idea-input" className="sr-only">
+              Project Idea
+            </label>
+            <textarea
+              id="idea-input"
+              rows={5}
+              value={idea}
+              onChange={e => setIdea(e.target.value)}
+              placeholder="Describe Your Project Idea"
+              disabled={status === 'submitting' || status === 'submitted'}
+              className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm resize-none disabled:opacity-60"
+            />
+          </div>
+
+          {/* Submitted notification banner when active */}
+          {status === 'submitted' && (
+            <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-center gap-2 font-medium transition-all animate-in fade-in duration-300">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0 stroke-[2.5]" />
+              <span>Enquiry submitted successfully! We will get back to you soon.</span>
+            </div>
+          )}
+
+          {/* Centered Dynamic CTA Button: Submit Enquiry -> Submitting... -> Green with white text & tick icon (Submitted) */}
+          <div className="flex justify-center pt-3">
             <button
-              onClick={() => {
-                setSubmitted(false);
-                setName('');
-                setEmail('');
-                setIdea('');
-              }}
-              className="mt-6 px-6 py-2.5 rounded-full bg-[#121214] text-white text-xs font-semibold hover:bg-neutral-800 transition-colors cursor-pointer"
+              type="submit"
+              disabled={status === 'submitting' || status === 'submitted'}
+              className={`group relative inline-flex items-center justify-center gap-2.5 px-10 py-3.5 rounded-full font-bold text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 ease-out border border-white/20 active:scale-95 cursor-pointer ${
+                status === 'submitted'
+                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 cursor-default scale-102'
+                  : status === 'submitting'
+                  ? 'bg-gradient-to-r from-[#FF7900] via-[#FF8C1A] to-[#EA580C] text-white opacity-90 cursor-wait'
+                  : 'bg-gradient-to-r from-[#FF7900] via-[#FF8C1A] to-[#EA580C] hover:from-[#EA580C] hover:via-[#FF7900] hover:to-[#FF8C1A] text-white shadow-lg shadow-orange-500/25 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 hover:scale-105'
+              }`}
             >
-              Send Another Inquiry
+              {status === 'submitting' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  <span>Submitting...</span>
+                </>
+              ) : status === 'submitted' ? (
+                <>
+                  <Check className="w-4.5 h-4.5 text-white stroke-[2.5]" />
+                  <span>Submitted</span>
+                </>
+              ) : (
+                <>
+                  <span>Submit Enquiry</span>
+                  <Send className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5 group-hover:-translate-y-0.5" />
+                </>
+              )}
             </button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-            {error && (
-              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
 
-            <div>
-              <label htmlFor="name-input" className="sr-only">
-                Your Name
-              </label>
-              <input
-                id="name-input"
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="Name"
-                className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email-input" className="sr-only">
-                Email Address
-              </label>
-              <input
-                id="email-input"
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Email"
-                className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="idea-input" className="sr-only">
-                Project Idea
-              </label>
-              <textarea
-                id="idea-input"
-                rows={5}
-                value={idea}
-                onChange={e => setIdea(e.target.value)}
-                placeholder="Describe Your Project Idea"
-                className="w-full px-5 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-800 placeholder-neutral-400 focus:outline-none focus:border-neutral-700 transition-colors text-sm resize-none"
-              />
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="px-8 py-3 rounded-lg bg-transparent hover:bg-neutral-100 text-neutral-800 font-bold text-xs uppercase tracking-widest border border-neutral-300 hover:border-neutral-500 transition-all cursor-pointer shadow-xs active:scale-95"
-              >
-                SEND
-              </button>
-            </div>
-          </form>
-        )}
+        </form>
 
         {/* Footer Row with Facebook, Instagram, and WhatsApp social icons */}
         <div className="mt-20 pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">

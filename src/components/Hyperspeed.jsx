@@ -435,6 +435,9 @@ const lookShapes = (t, curvature) => {
   ];
 };
 
+/**
+ * @param {any} props
+ */
 const Hyperspeed = ({
   curve = 'winding',
   curvature = 1,
@@ -454,21 +457,23 @@ const Hyperspeed = ({
   glow = 0.6,
   reflections = 0.5,
   steer = 0.35,
-  tailColors,
-  headColors,
-  poleColors,
-  roadColor,
+  tailColors = [],
+  headColors = [],
+  poleColors = [],
+  roadColor = '',
   roadOpacity = 0.1,
-  lineColor,
-  background,
+  lineColor = '',
+  background = '',
   theme = 'dark',
   interactive = true,
   boosting = false,
-  onBoostStart,
-  onBoostEnd,
+  onBoostStart = undefined,
+  onBoostEnd = undefined,
   className = '',
-  style
+  style = {}
 }) => {
+
+
   const containerRef = useRef(null);
   const palette = THEMES[theme] ?? THEMES.dark;
   const settings = {
@@ -494,10 +499,10 @@ const Hyperspeed = ({
     tailColors: tailColors?.length ? tailColors : palette.tail,
     headColors: headColors?.length ? headColors : palette.head,
     poleColors: poleColors?.length ? poleColors : palette.poles,
-    roadColor: roadColor ?? palette.road,
+    roadColor: (roadColor && roadColor.length > 0) ? roadColor : palette.road,
     roadOpacity: Math.min(1, Math.max(0, roadOpacity)),
-    lineColor: lineColor ?? palette.lines,
-    background: background ?? palette.background,
+    lineColor: (lineColor && lineColor.length > 0) ? lineColor : palette.lines,
+    background: (background && background.length > 0) ? background : palette.background,
     dustColor: palette.dust,
     interactive,
     boosting
@@ -511,12 +516,14 @@ const Hyperspeed = ({
     const container = containerRef.current;
     if (!container) return undefined;
 
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const reduce = false;
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     renderer.autoClear = false;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     container.appendChild(renderer.domElement);
+
+
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(settingsRef.current.fov, 1, 0.1, 10000);
@@ -806,20 +813,24 @@ const Hyperspeed = ({
     let alive = true;
 
     const syncColors = s => {
-      const tailKey = s.tailColors.join();
+      const currentTail = s.tailColors?.length ? s.tailColors : palette.tail;
+      const currentHead = s.headColors?.length ? s.headColors : palette.head;
+      const currentPoles = s.poleColors?.length ? s.poleColors : palette.poles;
+
+      const tailKey = currentTail.join();
       if (tailKey !== keys.tail) {
         keys.tail = tailKey;
-        fillPalette(tail.uniforms.uColors, tail.uniforms.uColorCount, s.tailColors);
+        fillPalette(tail.uniforms.uColors, tail.uniforms.uColorCount, currentTail);
       }
-      const headKey = s.headColors.join();
+      const headKey = currentHead.join();
       if (headKey !== keys.head) {
         keys.head = headKey;
-        fillPalette(head.uniforms.uColors, head.uniforms.uColorCount, s.headColors);
+        fillPalette(head.uniforms.uColors, head.uniforms.uColorCount, currentHead);
       }
-      const poleKey = s.poleColors.join();
+      const poleKey = currentPoles.join();
       if (poleKey !== keys.poles) {
         keys.poles = poleKey;
-        fillPalette(poleUniforms.uColors, poleUniforms.uColorCount, s.poleColors);
+        fillPalette(poleUniforms.uColors, poleUniforms.uColorCount, currentPoles);
       }
       const surfaceKey = [s.roadColor, s.lineColor, s.background, s.dustColor].join();
       if (surfaceKey !== keys.surface) {
@@ -982,13 +993,19 @@ const Hyperspeed = ({
       else callbacksRef.current.onBoostEnd?.();
     };
 
+    let cachedRect = null;
+    const updateCachedRect = () => {
+      if (container) cachedRect = container.getBoundingClientRect();
+    };
+
     const onDown = event => {
       if (event.button !== 0 && event.pointerType === 'mouse') return;
       setHeld(true);
     };
     const onUp = () => setHeld(false);
     const onMove = event => {
-      const rect = container.getBoundingClientRect();
+      if (!settingsRef.current.interactive) return;
+      const rect = cachedRect || container.getBoundingClientRect();
       state.pointerX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       state.pointerY = ((event.clientY - rect.top) / rect.height) * 2 - 1;
     };
@@ -1000,39 +1017,50 @@ const Hyperspeed = ({
       if (settingsRef.current.interactive) event.preventDefault();
     };
 
-    const resizeObserver = new ResizeObserver(resize);
+    const resizeObserver = new ResizeObserver(() => {
+      updateCachedRect();
+      resize();
+    });
     resizeObserver.observe(container);
     const visibility = new IntersectionObserver(entries => {
       state.visible = entries.some(entry => entry.isIntersecting);
       if (state.visible) wake();
     });
     visibility.observe(container);
-    container.addEventListener('pointerdown', onDown);
-    container.addEventListener('pointermove', onMove);
-    container.addEventListener('pointerleave', onLeave);
-    container.addEventListener('contextmenu', onMenu);
-    window.addEventListener('pointerup', onUp);
-    window.addEventListener('pointercancel', onUp);
-    window.addEventListener('blur', onUp);
+
+    const isInteractive = settingsRef.current.interactive;
+    if (isInteractive) {
+      container.addEventListener('pointerdown', onDown, { passive: true });
+      container.addEventListener('pointermove', onMove, { passive: true });
+      container.addEventListener('pointerleave', onLeave, { passive: true });
+      container.addEventListener('contextmenu', onMenu);
+      window.addEventListener('pointerup', onUp, { passive: true });
+      window.addEventListener('pointercancel', onUp, { passive: true });
+      window.addEventListener('blur', onUp, { passive: true });
+    }
     resize();
+    updateCachedRect();
 
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       visibility.disconnect();
-      container.removeEventListener('pointerdown', onDown);
-      container.removeEventListener('pointermove', onMove);
-      container.removeEventListener('pointerleave', onLeave);
-      container.removeEventListener('contextmenu', onMenu);
-      window.removeEventListener('pointerup', onUp);
-      window.removeEventListener('pointercancel', onUp);
-      window.removeEventListener('blur', onUp);
+      if (isInteractive) {
+        container.removeEventListener('pointerdown', onDown);
+        container.removeEventListener('pointermove', onMove);
+        container.removeEventListener('pointerleave', onLeave);
+        container.removeEventListener('contextmenu', onMenu);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+        window.removeEventListener('blur', onUp);
+      }
       disposables.forEach(item => item.dispose());
       renderer.dispose();
       renderer.domElement.remove();
     };
   }, []);
+
 
   return <div ref={containerRef} className={`hyperspeed${className ? ` ${className}` : ''}`} style={style} />;
 };

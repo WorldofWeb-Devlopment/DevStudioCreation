@@ -31,11 +31,12 @@ export const ServicesSection: React.FC = () => {
       status: 'AVAILABLE NOW',
       description: 'We build modern, responsive websites that turn visitors into customers.',
       tags: ['Business Websites', 'Landing Pages', 'Portfolio Websites', 'Website Redesign'],
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',
-      imageAlt: 'Apex Cloud SaaS Website Development',
-      projectTag: 'Apex Cloud Portal',
-      meta: 'Next.js · Responsive',
+      image: '/assets/projects/sketchbook-hero.png',
+      imageAlt: 'My Sketchbook Creative Artist Website Development',
+      projectTag: 'My Sketchbook Live Build',
+      meta: 'Vercel · Responsive',
       icon: Globe,
+
     },
     {
       id: 'video-editing',
@@ -147,24 +148,34 @@ export const ServicesSection: React.FC = () => {
                 {renderBadge(websiteService.status)}
               </div>
 
-              {/* Project-matched Image */}
-              <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-neutral-900 border border-neutral-200/80 shadow-inner">
+              {/* Project-matched Image: Seamless fitting for My Sketchbook */}
+              <div className="w-full h-44 sm:h-52 rounded-2xl overflow-hidden relative my-2 bg-[#E4CAA6] border border-[#d8be9a] shadow-inner flex items-center justify-center p-2">
                 <img
                   src={websiteService.image}
                   alt={websiteService.imageAlt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-xs"
                   loading="lazy"
+                  decoding="async"
+                  width="640"
+                  height="640"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">
+
+                <div className="absolute top-2.5 left-3">
+                  <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-black/60 text-white backdrop-blur-md">
+                    mysketchbook-amber.vercel.app
+                  </span>
+                </div>
+
+                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-neutral-800">
+                  <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-md bg-white/80 backdrop-blur-md border border-black/10 text-orange-700 shadow-2xs">
                     {websiteService.projectTag}
                   </span>
-                  <span className="text-[10px] font-mono text-white/70">
+                  <span className="text-[10px] font-mono font-medium text-neutral-700 bg-white/70 px-2 py-0.5 rounded-md backdrop-blur-md">
                     {websiteService.meta}
                   </span>
                 </div>
               </div>
+
 
               {/* Card Footer tags without the inner button */}
               <div className="mt-3">
@@ -234,6 +245,9 @@ export const ServicesSection: React.FC = () => {
                   alt={videoService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
                   loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="400"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
@@ -282,6 +296,9 @@ export const ServicesSection: React.FC = () => {
                   alt={graphicService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-95"
                   loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="400"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
@@ -355,7 +372,11 @@ export const ServicesSection: React.FC = () => {
                   alt={customAppService.imageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 contrast-105"
                   loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="400"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
                   <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[#FF7900]">

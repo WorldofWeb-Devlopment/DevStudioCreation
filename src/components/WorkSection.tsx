@@ -37,36 +37,20 @@ export const WorkSection: React.FC = () => {
 
   const websiteProjects: WebsiteProject[] = [
     {
-      id: 'apex-cloud',
-      title: 'Apex Cloud Platform',
+      id: 'my-sketchbook',
+      title: 'My Sketchbook',
       category: 'Website Development',
-      tag: 'Next-Gen SaaS Portal',
-      summary: 'High-conversion marketing portal with real-time tier calculators, dark mode architecture, and interactive customer onboarding.',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+      tag: 'Artist Portfolio & Blog',
+      summary: 'A creative journey through stories, sketches, and imagination. Built with responsive notebook paper textures, floating animated doodles, a featured artwork gallery, and storytelling blog notes.',
+      image: '/assets/projects/sketchbook-hero.png',
       deliverables: [
-        '99.9% uptime SLA architecture',
-        '0.4s initial load time worldwide',
-        'Tailwind CSS & Next.js responsiveness',
-        'Interactive pricing calculators',
+        'Hand-drawn doodle aesthetic & notebook textured UI',
+        'Interactive featured sketch gallery & artwork showcase',
+        'Integrated artist blog stories with sticky-note typography',
+        'High-performance responsive design deployed live on Vercel',
       ],
-      techStack: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript'],
-      liveUrl: '#',
-    },
-    {
-      id: 'lumina-studio',
-      title: 'Lumina Creative Studio',
-      category: 'Website Development',
-      tag: 'Agency Portfolio Website',
-      summary: 'Minimalist, interactive portfolio website featuring fluid typography, bespoke grid layouts, and high-performance animations that drive conversions.',
-      image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200&auto=format&fit=crop',
-      deliverables: [
-        'Fluid responsive layout across mobile and desktop',
-        'Sub-second page speeds with optimized assets',
-        'Accessible semantic HTML and SEO metadata',
-        'Smooth scroll transitions and micro-interactions',
-      ],
-      techStack: ['React', 'TypeScript', 'Motion', 'Vite'],
-      liveUrl: '#',
+      techStack: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Web', 'Vercel'],
+      liveUrl: 'https://mysketchbook-amber.vercel.app/',
     },
   ];
 
@@ -74,7 +58,7 @@ export const WorkSection: React.FC = () => {
     <section id="work" className="py-20 md:py-28 px-4 md:px-8 bg-[#FAF7F2]">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-14 md:mb-16">
           <p className="text-xs font-bold tracking-[0.25em] text-neutral-500 uppercase mb-3">
             OUR WORK
           </p>
@@ -86,60 +70,100 @@ export const WorkSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Two-column Bento Grid on desktop, single-column on mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {/* Featured Project Showcase: centered single card */}
+        <div className="max-w-3xl mx-auto">
           {websiteProjects.map((project) => (
             <div
               key={project.id}
-              className="group bg-white rounded-3xl p-6 sm:p-7 border border-[#E7E1D8] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-hidden"
+              className="group bg-white rounded-3xl p-6 sm:p-9 border border-[#E7E1D8] shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between overflow-hidden"
             >
-              {/* Card Thumbnail / Large Screenshot */}
+              {/* Card Thumbnail: Browser Preview Frame with seamless fitting */}
               <div
                 onClick={() => setSelectedProject(project)}
-                className="w-full aspect-[16/10] rounded-2xl overflow-hidden relative cursor-pointer bg-neutral-900 border border-neutral-200/80 shadow-inner group/thumb"
+                className="w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden relative cursor-pointer bg-[#E4CAA6] border border-[#d8be9a] shadow-inner group/thumb flex flex-col justify-between"
               >
-                <img
-                  src={project.image}
-                  alt={`${project.title} Website Screenshot`}
-                  className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-700 brightness-95"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover/thumb:opacity-90 transition-opacity" />
+                {/* Browser Top Window Bar */}
+                <div className="w-full px-4 py-2.5 bg-[#d9bd98]/70 backdrop-blur-xs border-b border-[#cbb08b] flex items-center justify-between text-neutral-800 z-10 shrink-0">
+                  {/* Window control dots */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-[#E0443E]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-[#1AAB29]" />
+                  </div>
 
-                {/* Top Badge Overlay */}
-                <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                  <span className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider bg-black/60 backdrop-blur-md text-white border border-white/10">
-                    {project.tag}
-                  </span>
-                  <span className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover/thumb:bg-orange-500 group-hover/thumb:border-orange-500 transition-colors">
-                    <Eye className="w-4 h-4" />
+                  {/* Browser Address Bar Pill */}
+                  <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/70 border border-black/10 text-[10px] sm:text-[11px] font-mono text-neutral-700 shadow-2xs max-w-[220px] sm:max-w-[300px] truncate">
+                    <Globe className="w-3 h-3 text-neutral-500 shrink-0" />
+                    <span className="truncate">mysketchbook-amber.vercel.app</span>
+                  </div>
+
+                  {/* Live Status Badge */}
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 text-[10px] font-mono font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                    <span>LIVE</span>
                   </span>
                 </div>
 
-                {/* Bottom Overlay Label */}
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white z-10">
-                  <span className="text-xs font-mono text-orange-400 font-medium flex items-center gap-1.5">
-                    <Globe className="w-3.5 h-3.5" />
-                    <span>Website Development</span>
+                {/* Preview Content Area: Character completely fitted without cropping */}
+                <div className="flex-1 w-full px-4 sm:px-8 py-3 flex items-center justify-between relative overflow-hidden">
+                  {/* Left Column: Website Typography Mockup */}
+                  <div className="max-w-[50%] z-10 space-y-2 text-left">
+                    <span className="inline-block px-2.5 py-0.5 rounded-md bg-[#333333]/10 text-neutral-800 font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+                      Artist Portfolio
+                    </span>
+                    <h4 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#333333] tracking-tight leading-tight">
+                      My Sketchbook
+                    </h4>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-neutral-700 line-clamp-2 leading-relaxed font-medium">
+                      A creative journey through stories, sketches, and imagination.
+                    </p>
+                    <div className="pt-1">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#F8C8B0] text-[#333333] font-bold text-[10px] sm:text-[11px] shadow-xs border border-[#333333]/15">
+                        <span>Explore Gallery</span>
+                        <span>↘</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Character Artwork (100% un-cropped, fitted) */}
+                  <div className="h-full max-h-[280px] sm:max-h-[320px] w-[50%] flex items-center justify-center p-1 sm:p-2">
+                    <img
+                      src={project.image}
+                      alt={`${project.title} Character Illustration`}
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover/thumb:scale-105 drop-shadow-sm"
+                      loading="lazy"
+                      decoding="async"
+                      width="640"
+                      height="640"
+                    />
+                  </div>
+                </div>
+
+                {/* Bottom Overlay Pill on Hover */}
+                <div className="px-4 py-2 bg-[#d9bd98]/50 border-t border-[#cbb08b]/80 flex items-center justify-between text-xs text-neutral-800 z-10">
+                  <span className="font-mono text-[11px] text-neutral-700 font-semibold flex items-center gap-1.5">
+                    <Eye className="w-3.5 h-3.5 text-orange-600" />
+                    <span>Click anywhere to view full project preview</span>
                   </span>
-                  <span className="text-[11px] font-mono text-white/80 underline decoration-orange-500 underline-offset-4">
-                    Click to view preview
+                  <span className="font-mono text-[11px] text-orange-700 underline underline-offset-2 font-bold">
+                    View Details →
                   </span>
                 </div>
               </div>
 
+
               {/* Card Meta Content */}
-              <div className="mt-5 flex-1 flex flex-col justify-between">
+              <div className="mt-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-mono font-semibold uppercase tracking-wider text-orange-600">
                       {project.category}
                     </span>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       {project.techStack.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded text-[10px] font-mono text-neutral-600 bg-neutral-100"
+                          className="px-2.5 py-0.5 rounded text-[10px] font-mono text-neutral-600 bg-neutral-100 font-medium"
                         >
                           {tech}
                         </span>
@@ -147,28 +171,43 @@ export const WorkSection: React.FC = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-[#111113] group-hover:text-orange-500 transition-colors mt-2">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111113] group-hover:text-orange-500 transition-colors mt-2.5">
                     {project.title}
                   </h3>
 
-                  <p className="mt-2 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                  <p className="mt-2.5 text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
                     {project.summary}
                   </p>
                 </div>
 
-                {/* Action button */}
-                <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-neutral-900 bg-neutral-100 hover:bg-neutral-900 hover:text-white transition-all cursor-pointer active:scale-95"
-                    aria-label={`View ${project.title} project details`}
-                  >
-                    <span>View Project</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
+                {/* Action buttons */}
+                <div className="mt-7 pt-5 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-neutral-900 bg-neutral-100 hover:bg-neutral-900 hover:text-white transition-all cursor-pointer active:scale-95 shadow-xs"
+                      aria-label={`View ${project.title} project details`}
+                    >
+                      <span>View Details</span>
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
 
-                  <span className="text-xs font-mono text-neutral-400">
-                    Live Client Build
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-all cursor-pointer active:scale-95 shadow-md shadow-orange-500/25"
+                      >
+                        <span>Visit Live Site</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+
+                  <span className="text-xs font-mono text-emerald-600 font-semibold flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Live Production Site</span>
                   </span>
                 </div>
               </div>
@@ -200,23 +239,40 @@ export const WorkSection: React.FC = () => {
 
             {/* Scrollable content area */}
             <div className="overflow-y-auto p-6 sm:p-8">
-              {/* Modal Image */}
-              <div className="w-full h-48 sm:h-56 rounded-2xl overflow-hidden relative mb-5 bg-neutral-900 border border-neutral-200 shadow-inner">
+              {/* Modal Image: Seamless character presentation without cropping */}
+              <div className="w-full h-56 sm:h-64 rounded-2xl overflow-hidden relative mb-5 bg-[#E4CAA6] border border-[#d8be9a] shadow-inner flex items-center justify-center p-2">
                 <img
                   src={selectedProject.image}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover"
+                  className="h-full w-auto object-contain drop-shadow-sm"
+                  loading="lazy"
+                  decoding="async"
+                  width="640"
+                  height="640"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
-                <div className="absolute bottom-3 left-4 right-4">
-                  <span className="text-xs font-mono font-bold text-orange-400 uppercase tracking-wider">
-                    {selectedProject.category} // {selectedProject.tag}
+
+                <div className="absolute top-3 left-3">
+                  <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-black/60 text-white backdrop-blur-md uppercase tracking-wider">
+                    {selectedProject.tag}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-0.5">
+                </div>
+
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-neutral-800 bg-white/80 px-2.5 py-1 rounded-md backdrop-blur-md">
                     {selectedProject.title}
-                  </h3>
+                  </span>
+                  <a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-mono text-orange-700 bg-white/90 hover:bg-white px-2.5 py-1 rounded-md backdrop-blur-md font-bold underline flex items-center gap-1 shadow-xs"
+                  >
+                    <span>mysketchbook-amber.vercel.app</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
+
 
               <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
                 {selectedProject.summary}
@@ -248,14 +304,27 @@ export const WorkSection: React.FC = () => {
                   ))}
                 </div>
 
-                {/* Primary Close Button at modal bottom */}
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="px-6 py-2.5 rounded-full bg-[#121214] hover:bg-neutral-800 text-white text-xs font-bold cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-1.5 ml-auto"
-                >
-                  <span>Close Preview</span>
-                  <X className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex items-center gap-2 ml-auto">
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-1.5"
+                    >
+                      <span>Open Website</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="px-5 py-2.5 rounded-full bg-[#121214] hover:bg-neutral-800 text-white text-xs font-bold cursor-pointer active:scale-95 transition-all shadow-md flex items-center gap-1.5"
+                  >
+                    <span>Close</span>
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -264,3 +333,4 @@ export const WorkSection: React.FC = () => {
     </section>
   );
 };
+

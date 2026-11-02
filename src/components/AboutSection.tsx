@@ -102,17 +102,18 @@ export const AboutSection: React.FC = () => {
         {/* Pure Card Deck Stack */}
         <div className="mt-12 md:mt-16 max-w-xl mx-auto">
           <div className="relative w-full h-[320px] sm:h-[300px] mx-auto">
-            <Stack
-              cards={cards}
-              layout="deck"
-              visible={4}
-              spread={0.28}
-              depth={0.42}
-              radius={24}
-              sendToBackOnClick={true}
-              className="w-full h-full"
-            />
+            {React.createElement(Stack as any, {
+              cards,
+              layout: "deck",
+              visible: 4,
+              spread: 0.28,
+              depth: 0.42,
+              radius: 24,
+              sendToBackOnClick: true,
+              className: "w-full h-full",
+            })}
           </div>
+
         </div>
       </div>
     </section>

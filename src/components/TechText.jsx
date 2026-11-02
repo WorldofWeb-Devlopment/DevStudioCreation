@@ -33,6 +33,9 @@ const noise = (...values) => {
 
 const signed = value => (value > 0 ? `+${value}` : value < 0 ? `−${-value}` : '0');
 
+/**
+ * @param {any} props
+ */
 const TechText = ({
   text = 'React Bits',
   fontFamily = '',
@@ -61,8 +64,9 @@ const TechText = ({
   introDuration = 2,
   guides = false,
   className = '',
-  style
+  style = {}
 }) => {
+
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const settingsRef = useRef(null);
@@ -876,21 +880,29 @@ const TechText = ({
     };
     wakeRef.current = wake;
 
+    let cachedRect = null;
+    const updateCachedRect = () => {
+      if (container) cachedRect = container.getBoundingClientRect();
+    };
+
     const resize = () => {
       width = Math.max(1, container.clientWidth);
       height = Math.max(1, container.clientHeight);
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       layoutKey = '';
+      updateCachedRect();
       wake();
     };
 
     const locate = e => {
-      const rect = container.getBoundingClientRect();
+      const rect = cachedRect || container.getBoundingClientRect();
       pointer.x = e.clientX - rect.left;
       pointer.y = e.clientY - rect.top;
     };
+
     const onMove = e => {
       locate(e);
       pointer.inside = true;

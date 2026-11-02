@@ -22,9 +22,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     }
     const params = new URLSearchParams(window.location.search);
     const freeze = params.get('freezePhase') ? parseInt(params.get('freezePhase')!, 10) : null;
-    const autostart = params.get('autostart') === '1' || (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false);
+    const autostart = params.get('autostart') === '1' || params.get('skipIntro') === '1';
     return { freeze, autostart };
   };
+
 
   const initial = checkInitialConfig();
   const [phaseNumber, setPhaseNumber] = useState<number>(() => {
@@ -170,6 +171,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     };
   }, [introKey]);
 
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -217,17 +219,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           onBoostEnd={() => setBoostAnnounced('Hyperspeed stabilized')}
         />
 
-        {/* Phase 1 HUD and Skip Button */}
+        {/* Phase 1 Skip Button (top-right) & Brand Tagline (bottom) */}
         {hyperspeedFullscreen && (
           <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8 pointer-events-none">
-            <div className="flex justify-between items-center text-xs tracking-widest uppercase font-mono text-white/70 pointer-events-none">
-              <span className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping" />
-                <span>PHASE 01 // HYPERSPEED WARP ENTRANCE</span>
-              </span>
+            <div className="flex justify-end items-center pointer-events-none">
               <button
                 onClick={skipSequence}
-                className="pointer-events-auto flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-white transition-all cursor-pointer backdrop-blur-md border border-white/10"
+                className="pointer-events-auto flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-white transition-all cursor-pointer backdrop-blur-md border border-white/10 text-xs tracking-widest uppercase font-mono"
               >
                 <span>Skip Intro</span>
                 <FastForward className="w-3.5 h-3.5" />
@@ -275,6 +273,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Soft radial vignette to keep typography crisp and readable */}
         <div className="absolute inset-0 bg-radial from-transparent via-[#FAF7F2]/40 to-[#FAF7F2] pointer-events-none" />
       </div>
+
 
       {/* Hero Foreground Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
