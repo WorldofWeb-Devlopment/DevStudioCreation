@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Eye, X, ArrowUpRight, CheckCircle2, Globe } from 'lucide-react';
+import { trackProjectView } from '../utils/analytics';
 
 interface WebsiteProject {
   id: string;
@@ -15,6 +16,11 @@ interface WebsiteProject {
 
 export const WorkSection: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<WebsiteProject | null>(null);
+
+  const handleOpenProject = (project: WebsiteProject) => {
+    trackProjectView(project.title);
+    setSelectedProject(project);
+  };
 
   // Close modal on Escape key press and prevent background scrolling
   useEffect(() => {
@@ -79,7 +85,7 @@ export const WorkSection: React.FC = () => {
             >
               {/* Card Thumbnail: Browser Preview Frame with seamless fitting */}
               <div
-                onClick={() => setSelectedProject(project)}
+                onClick={() => handleOpenProject(project)}
                 className="w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden relative cursor-pointer bg-[#E4CAA6] border border-[#d8be9a] shadow-inner group/thumb flex flex-col justify-between"
               >
                 {/* Browser Top Window Bar */}

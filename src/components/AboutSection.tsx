@@ -94,9 +94,7 @@ export const AboutSection: React.FC = () => {
 
         {/* Subtitle paragraph */}
         <p className="mt-4 sm:mt-5 text-xs sm:text-sm md:text-base text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-          We Bring Design, Technology, And Storytelling Together To Help Brands Build A Powerful Digital
-          Presence. From Stunning Websites And Custom Applications To Creative Visuals And Engaging Videos,
-          Everything You Need Is Under One Roof.
+          We bring modern web design, responsive technology, and digital storytelling together to help brands build a powerful online presence. Based in Dindigul, Tamil Nadu, we engineer high-performance business websites and custom digital solutions that drive real results.
         </p>
 
         {/* Pure Card Deck Stack */}

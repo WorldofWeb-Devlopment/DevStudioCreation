@@ -3,6 +3,7 @@ import Hyperspeed from './Hyperspeed.jsx';
 import TechText from './TechText.jsx';
 import { ArrowRight, ChevronDown, FastForward } from 'lucide-react';
 import { TIMELINE_CONFIG } from '../utils/introSequence';
+import { trackCtaClick } from '../utils/analytics';
 
 interface HeroSectionProps {
   introKey?: number;
@@ -277,8 +278,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* Hero Foreground Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center">
-        {/* PHASE 3: TechText Title Reveal ("DevStudioCreations") */}
-        <div className="w-full flex justify-center items-center min-h-[120px] sm:min-h-[150px] md:min-h-[190px]">
+        {/* PHASE 3: TechText Title Reveal ("DevStudioCreations") with Semantic H1 for SEO */}
+        <h1 className="w-full flex justify-center items-center min-h-[120px] sm:min-h-[150px] md:min-h-[190px] m-0 p-0 font-normal">
+          <span className="sr-only">
+            DevStudioCreations – Website Development Company in Dindigul, Tamil Nadu
+          </span>
           {showTechText ? (
             <div className="w-full h-28 sm:h-36 md:h-44 flex items-center justify-center transition-all duration-700">
               <TechText
@@ -302,7 +306,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           ) : (
             <div className="w-full h-28 sm:h-36 md:h-44 opacity-0 pointer-events-none" />
           )}
-        </div>
+        </h1>
 
         {/* PHASE 4: Subtitle Reveal ("EVERYTHING IN ONE PLACE") */}
         <div
@@ -317,7 +321,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
         </div>
 
-        {/* PHASE 4: Description Reveal */}
+        {/* PHASE 4: Description Reveal with Natural Keywords */}
         <div
           className={`mt-4 sm:mt-5 max-w-2xl px-4 transition-all duration-700 delay-100 ${
             showDescription
@@ -326,12 +330,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           }`}
         >
           <p className="text-sm sm:text-base md:text-lg text-neutral-600 leading-relaxed font-normal">
-            From websites and custom apps to graphic design and video editing we bring creativity,
-            technology, and storytelling together to build your complete digital presence.
+            From modern responsive websites to custom web applications, we build fast, high-converting digital experiences for ambitious businesses in Dindigul, Tamil Nadu, and worldwide.
           </p>
         </div>
 
-        {/* PHASE 4: CTA Buttons Staggered Reveal */}
+        {/* PHASE 4: CTA Buttons Staggered Reveal with Event Tracking */}
         <div
           className={`mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 transition-all duration-700 delay-200 ${
             showCtas
@@ -341,7 +344,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           {/* Start a Project */}
           <button
-            onClick={() => scrollToSection('contact')}
+            onClick={() => {
+              trackCtaClick('Start a Project', 'hero');
+              scrollToSection('contact');
+            }}
             className="group px-7 py-3.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 active:scale-95 text-white font-semibold text-sm md:text-base transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 cursor-pointer flex items-center gap-2"
           >
             <span>Start a Project</span>
@@ -350,7 +356,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* View Our Work */}
           <button
-            onClick={() => scrollToSection('work')}
+            onClick={() => {
+              trackCtaClick('View Our Work', 'hero');
+              scrollToSection('work');
+            }}
             className="px-7 py-3.5 rounded-full bg-white/90 hover:bg-white text-neutral-800 hover:text-black font-semibold text-sm md:text-base border border-neutral-200/80 hover:border-neutral-300 shadow-sm hover:shadow active:scale-95 transition-all cursor-pointer"
           >
             <span>View Our Work</span>

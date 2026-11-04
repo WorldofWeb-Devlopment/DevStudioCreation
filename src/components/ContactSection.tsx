@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Check, AlertCircle, Facebook, Instagram, Send, Loader2 } from 'lucide-react';
+import { trackEnquirySubmission, trackSocialClick } from '../utils/analytics';
 
 const WhatsAppIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -67,6 +68,7 @@ export const ContactSection: React.FC = () => {
       });
 
       // Clear fields and transition to submitted state
+      trackEnquirySubmission();
       setName('');
       setEmail('');
       setMobile('');
@@ -75,6 +77,7 @@ export const ContactSection: React.FC = () => {
     } catch (err) {
       console.error('Contact form submission error:', err);
       // Still show submitted confirmation and clear fields
+      trackEnquirySubmission();
       setName('');
       setEmail('');
       setMobile('');
@@ -221,6 +224,7 @@ export const ContactSection: React.FC = () => {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackSocialClick('facebook')}
               aria-label="Follow DevStudioCreations on Facebook"
               title="Facebook"
               className="w-8 h-8 rounded-full bg-white border border-neutral-200/80 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all shadow-xs active:scale-95 cursor-pointer"
@@ -233,6 +237,7 @@ export const ContactSection: React.FC = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackSocialClick('instagram')}
               aria-label="Follow DevStudioCreations on Instagram"
               title="Instagram"
               className="w-8 h-8 rounded-full bg-white border border-neutral-200/80 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-gradient-to-tr hover:from-amber-500 hover:via-pink-500 hover:to-purple-600 hover:border-transparent transition-all shadow-xs active:scale-95 cursor-pointer"
@@ -242,11 +247,12 @@ export const ContactSection: React.FC = () => {
 
             {/* WhatsApp Icon */}
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/919360108256?text=Hi%20DevStudioCreations,%20I'd%20like%20to%20enquire%20about%20a%20website%20development%20project."
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Chat with DevStudioCreations on WhatsApp"
-              title="WhatsApp"
+              onClick={() => trackSocialClick('whatsapp')}
+              aria-label="Chat with DevStudioCreations on WhatsApp (+91 9360108256)"
+              title="Chat on WhatsApp (+91 9360108256)"
               className="w-8 h-8 rounded-full bg-white border border-neutral-200/80 flex items-center justify-center text-neutral-600 hover:text-white hover:bg-[#25D366] hover:border-[#25D366] transition-all shadow-xs active:scale-95 cursor-pointer"
             >
               <WhatsAppIcon className="w-4 h-4" />

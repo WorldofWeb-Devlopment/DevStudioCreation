@@ -1,0 +1,11 @@
+# Robots.txt for DevStudioCreations
+# Primary Domain: https://devstudiocreations.in
+
+User-agent: *
+Allow: /
+
+# Prevent crawl waste on build artifacts
+Disallow: /node_modules/
+
+# XML Sitemap
+Sitemap: https://devstudiocreations.in/sitemap.xml

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Globe, Video, Palette, Code2, ArrowRight } from 'lucide-react';
+import { trackCtaClick } from '../utils/analytics';
 
 interface ServiceItem {
   id: string;
@@ -17,6 +18,7 @@ interface ServiceItem {
 
 export const ServicesSection: React.FC = () => {
   const scrollToContact = () => {
+    trackCtaClick("Let's Start Your Project", 'services-bento');
     const el = document.getElementById('contact');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -30,13 +32,12 @@ export const ServicesSection: React.FC = () => {
       title: 'Website Development',
       status: 'AVAILABLE NOW',
       description: 'We build modern, responsive websites that turn visitors into customers.',
-      tags: ['Business Websites', 'Landing Pages', 'Portfolio Websites', 'Website Redesign'],
+      tags: ['Business Websites', 'Landing Page Design', 'Custom Website Development', 'School & Portfolio Sites'],
       image: '/assets/projects/sketchbook-hero.png',
-      imageAlt: 'My Sketchbook Creative Artist Website Development',
+      imageAlt: 'My Sketchbook Creative Artist Website Development in Dindigul',
       projectTag: 'My Sketchbook Live Build',
       meta: 'Vercel · Responsive',
       icon: Globe,
-
     },
     {
       id: 'video-editing',
