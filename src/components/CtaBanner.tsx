@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { trackCtaClick } from '../utils/analytics';
 
 interface CtaBannerProps {
   onContactClick?: () => void;
@@ -7,6 +8,7 @@ interface CtaBannerProps {
 
 export const CtaBanner: React.FC<CtaBannerProps> = ({ onContactClick }) => {
   const handleClick = () => {
+    trackCtaClick("Let's Work Together", "cta_banner");
     if (onContactClick) {
       onContactClick();
     } else {

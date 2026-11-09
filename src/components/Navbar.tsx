@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RotateCcw, Menu, X, ArrowRight } from 'lucide-react';
+import { trackNavClick, trackCtaClick } from '../utils/analytics';
 
 interface NavbarProps {
   onReplayIntro?: () => void;
@@ -19,6 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = tru
   }, []);
 
   const scrollToSection = (id: string) => {
+    trackNavClick(id);
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
@@ -101,7 +103,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = tru
           )}
 
           <button
-            onClick={() => scrollToSection('contact')}
+            onClick={() => {
+              trackCtaClick("Let's Talk", "navbar_desktop");
+              scrollToSection('contact');
+            }}
             className="px-3.5 py-1.5 sm:px-4 sm:py-1.5 md:px-5 md:py-2 text-xs sm:text-xs md:text-sm font-semibold rounded-full bg-orange-500 hover:bg-orange-600 active:scale-95 text-white transition-all shadow-md shadow-orange-500/30 cursor-pointer flex items-center gap-1"
           >
             <span>Let's Talk</span>
@@ -170,7 +175,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = tru
               </button>
             )}
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={() => {
+                trackCtaClick("Start Project", "navbar_mobile");
+                scrollToSection('contact');
+              }}
               className="flex-1 py-2 rounded-xl bg-orange-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/30"
             >
               <span>Start Project</span>

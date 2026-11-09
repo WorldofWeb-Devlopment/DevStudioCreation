@@ -7,6 +7,7 @@ import React, { useState, useCallback, useEffect, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { MarqueeBanner } from './components/MarqueeBanner';
+import { initGA4, trackPageView } from './utils/analytics';
 
 // Code-split below-the-fold components to minimize initial bundle size and main-thread parsing time
 const AboutSection = React.lazy(() => import('./components/AboutSection').then(m => ({ default: m.AboutSection })));
@@ -14,7 +15,6 @@ const ServicesSection = React.lazy(() => import('./components/ServicesSection').
 const CtaBanner = React.lazy(() => import('./components/CtaBanner').then(m => ({ default: m.CtaBanner })));
 const WorkSection = React.lazy(() => import('./components/WorkSection').then(m => ({ default: m.WorkSection })));
 const ContactSection = React.lazy(() => import('./components/ContactSection').then(m => ({ default: m.ContactSection })));
-
 
 export default function App() {
   const checkInitialAutostart = () => {
@@ -28,9 +28,14 @@ export default function App() {
     return 1;
   };
 
-
   const [introKey, setIntroKey] = useState<number>(0);
   const [currentPhase, setCurrentPhase] = useState<number>(() => checkInitialAutostart());
+
+  // Initialize GA4 and record initial page view
+  useEffect(() => {
+    initGA4();
+    trackPageView();
+  }, []);
 
   const handleReplayIntro = useCallback(() => {
     // Scroll back to top and restart intro sequence
