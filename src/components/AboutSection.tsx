@@ -94,7 +94,7 @@ export const AboutSection: React.FC = () => {
 
         {/* Subtitle paragraph */}
         <p className="mt-4 sm:mt-5 text-xs sm:text-sm md:text-base text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-          We bring modern web design, responsive technology, and digital storytelling together to help brands build a powerful online presence. Based in Dindigul, Tamil Nadu, we engineer high-performance business websites and custom digital solutions that drive real results.
+          We bring modern web design, responsive engineering, graphic design, and digital storytelling together to help brands across India build a powerful online presence. Headquartered in Dindigul, Tamil Nadu, our digital creative agency partners with businesses nationwide to deliver websites and creative solutions that drive real results.
         </p>
 
         {/* Pure Card Deck Stack */}

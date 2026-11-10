@@ -281,7 +281,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* PHASE 3: TechText Title Reveal ("DevStudioCreations") with Semantic H1 for SEO */}
         <h1 className="w-full flex justify-center items-center min-h-[120px] sm:min-h-[150px] md:min-h-[190px] m-0 p-0 font-normal">
           <span className="sr-only">
-            DevStudioCreations – Website Development Company in Dindigul, Tamil Nadu
+            Creative Digital Solutions That Grow Your Business — DevStudioCreations Web Design, Development &amp; Digital Creative Agency in India
           </span>
           {showTechText ? (
             <div className="w-full h-28 sm:h-36 md:h-44 flex items-center justify-center transition-all duration-700">
@@ -330,7 +330,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           }`}
         >
           <p className="text-sm sm:text-base md:text-lg text-neutral-600 leading-relaxed font-normal">
-            From modern responsive websites to custom web applications, we build fast, high-converting digital experiences for ambitious businesses in Dindigul, Tamil Nadu, and worldwide.
+            Creative digital solutions that grow your business. We help brands across India build fast, high-converting websites, impactful graphic designs, and engaging digital experiences.
           </p>
         </div>
 

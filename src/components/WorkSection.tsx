@@ -133,15 +133,18 @@ export const WorkSection: React.FC = () => {
 
                   {/* Right Column: Character Artwork (100% un-cropped, fitted) */}
                   <div className="h-full max-h-[280px] sm:max-h-[320px] w-[50%] flex items-center justify-center p-1 sm:p-2">
-                    <img
-                      src={project.image}
-                      alt={`${project.title} Character Illustration`}
-                      className="w-full h-full object-contain transition-transform duration-500 group-hover/thumb:scale-105 drop-shadow-sm"
-                      loading="lazy"
-                      decoding="async"
-                      width="640"
-                      height="640"
-                    />
+                    <picture className="w-full h-full flex items-center justify-center">
+                      <source srcSet="/assets/projects/sketchbook-hero.webp" type="image/webp" />
+                      <img
+                        src={project.image}
+                        alt={`${project.title} – Custom Artist Portfolio Website Development in India by DevStudioCreations`}
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover/thumb:scale-105 drop-shadow-sm"
+                        loading="lazy"
+                        decoding="async"
+                        width="640"
+                        height="640"
+                      />
+                    </picture>
                   </div>
                 </div>
 
@@ -247,15 +250,18 @@ export const WorkSection: React.FC = () => {
             <div className="overflow-y-auto p-6 sm:p-8">
               {/* Modal Image: Seamless character presentation without cropping */}
               <div className="w-full h-56 sm:h-64 rounded-2xl overflow-hidden relative mb-5 bg-[#E4CAA6] border border-[#d8be9a] shadow-inner flex items-center justify-center p-2">
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  className="h-full w-auto object-contain drop-shadow-sm"
-                  loading="lazy"
-                  decoding="async"
-                  width="640"
-                  height="640"
-                />
+                <picture className="h-full flex items-center justify-center">
+                  <source srcSet="/assets/projects/sketchbook-hero.webp" type="image/webp" />
+                  <img
+                    src={selectedProject.image}
+                    alt={`${selectedProject.title} – Portfolio Website Preview by DevStudioCreations`}
+                    className="h-full w-auto object-contain drop-shadow-sm"
+                    loading="lazy"
+                    decoding="async"
+                    width="640"
+                    height="640"
+                  />
+                </picture>
 
                 <div className="absolute top-3 left-3">
                   <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-black/60 text-white backdrop-blur-md uppercase tracking-wider">

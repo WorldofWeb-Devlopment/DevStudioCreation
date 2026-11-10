@@ -5,9 +5,14 @@ import { trackNavClick, trackCtaClick } from '../utils/analytics';
 interface NavbarProps {
   onReplayIntro?: () => void;
   showContent?: boolean;
+  onNavigate?: (path: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = true }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onReplayIntro,
+  showContent = true,
+  onNavigate,
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -25,6 +30,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = tru
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    } else if (onNavigate) {
+      onNavigate(id === 'hero' ? '/' : `/#${id}`);
     }
   };
 
@@ -80,6 +87,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onReplayIntro, showContent = tru
           >
             Work
           </button>
+          <a
+            href="/blog"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                trackNavClick('blog');
+                setMobileMenuOpen(false);
+                onNavigate('/blog');
+              }
+            }}
+            className="hover:text-white transition-colors cursor-pointer"
+          >
+            Guides
+          </a>
           <button
             onClick={() => scrollToSection('contact')}
             className="hover:text-white transition-colors cursor-pointer"

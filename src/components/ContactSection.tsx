@@ -10,7 +10,11 @@ const WhatsAppIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 
 const TARGET_EMAIL = 'aravindbusiness7@gmail.com';
 
-export const ContactSection: React.FC = () => {
+interface ContactSectionProps {
+  onNavigate?: (path: string) => void;
+}
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ onNavigate }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
@@ -215,9 +219,43 @@ export const ContactSection: React.FC = () => {
 
         </form>
 
+        {/* Internal SEO Navigation Links for Services & Guides */}
+        <div className="mt-16 pt-8 border-t border-neutral-200/60">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 text-xs text-neutral-500">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-neutral-700">
+              Services &amp; Guides:
+            </span>
+            {[
+              { label: 'Website Development', path: '/website-development' },
+              { label: 'Business Websites', path: '/business-website-development' },
+              { label: 'Landing Pages', path: '/landing-page-development' },
+              { label: 'Portfolio Websites', path: '/portfolio-website-development' },
+              { label: 'Website Redesign', path: '/website-redesign' },
+              { label: 'Graphic Design', path: '/graphic-design' },
+              { label: 'Logo Design', path: '/logo-design' },
+              { label: 'Video Editing', path: '/video-editing' },
+              { label: 'Blog & SEO Guides', path: '/blog' },
+            ].map((link) => (
+              <a
+                key={link.path}
+                href={link.path}
+                onClick={(e) => {
+                  if (onNavigate) {
+                    e.preventDefault();
+                    onNavigate(link.path);
+                  }
+                }}
+                className="hover:text-orange-600 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Footer Row with Facebook, Instagram, and WhatsApp social icons */}
-        <div className="mt-20 pt-8 border-t border-neutral-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <p>© 2026 DevStudioCreations</p>
+        <div className="mt-8 pt-6 border-t border-neutral-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+          <p>© 2026 DevStudioCreations · Serving Clients Across India</p>
           <div className="flex items-center gap-3">
             {/* Facebook Icon */}
             <a
