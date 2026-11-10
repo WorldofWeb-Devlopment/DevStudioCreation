@@ -47,17 +47,6 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
             <Home className="w-4 h-4" />
             <span>Back to Homepage</span>
           </a>
-          <a
-            href="/blog"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate('/blog');
-            }}
-            className="px-6 py-3 rounded-full bg-[#FAF7F2] hover:bg-neutral-200/70 text-neutral-800 text-xs sm:text-sm font-semibold border border-[#E7E1D8] inline-flex items-center gap-1.5 transition-all"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Browse Guides</span>
-          </a>
         </div>
 
         <div className="mt-9 pt-7 border-t border-neutral-100 text-left">

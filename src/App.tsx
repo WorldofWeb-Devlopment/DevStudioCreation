@@ -9,7 +9,7 @@ import { HeroSection } from './components/HeroSection';
 import { MarqueeBanner } from './components/MarqueeBanner';
 import { initGA4, trackPageView } from './utils/analytics';
 import { updateDocumentSeo } from './utils/seo';
-import { BLOG_POSTS, SERVICE_PAGES } from './data/seoData';
+import { SERVICE_PAGES } from './data/seoData';
 
 // Code-split below-the-fold and secondary route components to minimize initial bundle size
 const AboutSection = React.lazy(() =>
@@ -35,9 +35,6 @@ const ServiceDetailPage = React.lazy(() =>
   import('./components/ServiceDetailPage').then((m) => ({
     default: m.ServiceDetailPage,
   }))
-);
-const BlogView = React.lazy(() =>
-  import('./components/BlogSection').then((m) => ({ default: m.BlogView }))
 );
 const NotFoundPage = React.lazy(() =>
   import('./components/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
@@ -161,11 +158,6 @@ export default function App() {
   // Resolve active route
   const cleanSlug = currentPath.replace(/^\//, '');
   const matchedService = SERVICE_PAGES[cleanSlug];
-  const isBlogIndex = currentPath === '/blog';
-  const blogSlugMatch = currentPath.startsWith('/blog/')
-    ? currentPath.replace('/blog/', '')
-    : null;
-  const matchedBlogPost = blogSlugMatch ? BLOG_POSTS[blogSlugMatch] : null;
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#111113] selection:bg-orange-500 selection:text-white flex flex-col relative font-sans">
@@ -220,13 +212,6 @@ export default function App() {
             {matchedService ? (
               <ServiceDetailPage
                 service={matchedService}
-                onNavigate={handleNavigate}
-              />
-            ) : isBlogIndex ? (
-              <BlogView activePost={null} onNavigate={handleNavigate} />
-            ) : blogSlugMatch && matchedBlogPost ? (
-              <BlogView
-                activePost={matchedBlogPost}
                 onNavigate={handleNavigate}
               />
             ) : (

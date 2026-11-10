@@ -87,20 +87,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             Work
           </button>
-          <a
-            href="/blog"
-            onClick={(e) => {
-              if (onNavigate) {
-                e.preventDefault();
-                trackNavClick('blog');
-                setMobileMenuOpen(false);
-                onNavigate('/blog');
-              }
-            }}
-            className="hover:text-white transition-colors cursor-pointer"
-          >
-            Guides
-          </a>
           <button
             onClick={() => scrollToSection('contact')}
             className="hover:text-white transition-colors cursor-pointer"

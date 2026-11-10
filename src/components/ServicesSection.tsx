@@ -130,17 +130,6 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
   const graphicService = services[2];
   const customAppService = services[3];
 
-  const specializedWebLinks = [
-    { label: 'Website Development', path: '/website-development' },
-    { label: 'Business Websites', path: '/business-website-development' },
-    { label: 'Landing Pages', path: '/landing-page-development' },
-    { label: 'Portfolio Websites', path: '/portfolio-website-development' },
-    { label: 'Website Redesign', path: '/website-redesign' },
-    { label: 'Graphic Design', path: '/graphic-design' },
-    { label: 'Logo Design', path: '/logo-design' },
-    { label: 'Video Editing', path: '/video-editing' },
-  ];
-
   return (
     <section id="services" className="py-20 md:py-28 px-4 md:px-8 bg-[#F8F5EF] border-t border-[#E7E1D8]">
       <div className="max-w-5xl mx-auto">
@@ -171,13 +160,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <span className="font-mono text-xs font-bold text-neutral-400">
                     {websiteService.number}.
                   </span>
-                  <a
-                    href={websiteService.slug}
-                    onClick={(e) => handleServiceLink(e, websiteService.slug)}
-                    className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors"
-                  >
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
                     {websiteService.title}
-                  </a>
+                  </span>
                 </div>
                 {renderBadge(websiteService.status)}
               </div>
@@ -221,13 +206,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <p className="text-xs text-neutral-500 font-mono tracking-tight">
                     {websiteService.tags.join(' · ')}
                   </p>
-                  <a
-                    href={websiteService.slug}
-                    onClick={(e) => handleServiceLink(e, websiteService.slug)}
-                    className="text-[11px] font-mono font-semibold text-emerald-600 hover:underline shrink-0 ml-2"
-                  >
-                    Service Details →
-                  </a>
+                  <span className="text-[11px] font-mono font-semibold text-emerald-600">
+                    Active Service
+                  </span>
                 </div>
               </div>
             </div>
@@ -245,7 +226,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
               <p className="mt-3 text-sm text-neutral-600 leading-relaxed font-normal">
                 Engineered for lightning speeds, mobile responsiveness, and search engine visibility across India. Every website is custom-crafted to scale alongside your business ambition.
               </p>
-              <div className="mt-5 flex flex-wrap items-center gap-4">
+              <div className="mt-5 flex items-center gap-4">
                 <button
                   onClick={scrollToContact}
                   className="px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center gap-2"
@@ -257,13 +238,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <span>Let's Start Your Project</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <a
-                  href="/website-development"
-                  onClick={(e) => handleServiceLink(e, '/website-development')}
-                  className="text-xs font-mono font-semibold text-neutral-700 hover:text-[#FF7900] underline underline-offset-4 transition-colors"
-                >
-                  Explore Web Development →
-                </a>
+                <span className="text-xs font-mono text-neutral-500">
+                  Accepting Q1 Projects
+                </span>
               </div>
             </div>
           </div>
@@ -277,13 +254,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <span className="font-mono text-xs font-bold text-neutral-400">
                     {videoService.number}.
                   </span>
-                  <a
-                    href={videoService.slug}
-                    onClick={(e) => handleServiceLink(e, videoService.slug)}
-                    className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors"
-                  >
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
                     {videoService.title}
-                  </a>
+                  </span>
                 </div>
                 {renderBadge(videoService.status)}
               </div>
@@ -318,13 +291,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <p className="text-xs text-neutral-500 font-mono tracking-tight">
                     {videoService.tags.join(' · ')}
                   </p>
-                  <a
-                    href={videoService.slug}
-                    onClick={(e) => handleServiceLink(e, videoService.slug)}
-                    className="text-[11px] font-mono text-neutral-500 hover:text-[#FF7900] transition-colors shrink-0 ml-2"
-                  >
-                    Details →
-                  </a>
+                  <span className="text-[11px] font-mono text-neutral-400 italic">
+                    Opening Soon
+                  </span>
                 </div>
               </div>
             </div>
@@ -336,13 +305,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <span className="font-mono text-xs font-bold text-neutral-400">
                     {graphicService.number}.
                   </span>
-                  <a
-                    href={graphicService.slug}
-                    onClick={(e) => handleServiceLink(e, graphicService.slug)}
-                    className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors"
-                  >
+                  <span className="text-lg sm:text-xl font-bold text-[#111111] group-hover:text-[#FF7900] transition-colors">
                     {graphicService.title}
-                  </a>
+                  </span>
                 </div>
                 {renderBadge(graphicService.status)}
               </div>
@@ -377,13 +342,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                   <p className="text-xs text-neutral-500 font-mono tracking-tight">
                     {graphicService.tags.join(' · ')}
                   </p>
-                  <a
-                    href={graphicService.slug}
-                    onClick={(e) => handleServiceLink(e, graphicService.slug)}
-                    className="text-[11px] font-mono text-neutral-500 hover:text-[#FF7900] transition-colors shrink-0 ml-2"
-                  >
-                    Details →
-                  </a>
+                  <span className="text-[11px] font-mono text-neutral-400 italic">
+                    Opening Soon
+                  </span>
                 </div>
               </div>
             </div>
@@ -461,23 +422,6 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onNavigate }) 
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Dedicated Service Pages Directory Strip for Internal Linking & India-Wide SEO */}
-          <div className="pt-6 border-t border-[#E7E1D8]/80 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-neutral-500 mr-1">
-              Explore Specialized Services:
-            </span>
-            {specializedWebLinks.map((item) => (
-              <a
-                key={item.path}
-                href={item.path}
-                onClick={(e) => handleServiceLink(e, item.path)}
-                className="px-3 py-1 rounded-full text-xs font-medium bg-white hover:bg-[#FF7900] text-neutral-700 hover:text-white border border-[#E7E1D8] transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
           </div>
         </div>
       </div>
