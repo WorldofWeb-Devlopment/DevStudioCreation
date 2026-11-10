@@ -1,5 +1,5 @@
 # Robots.txt for DevStudioCreations
-# Primary Domain: https://devstudiocreations.in
+# Primary Domain: https://www.devstudiocreations.in
 
 User-agent: *
 Allow: /
@@ -8,4 +8,4 @@ Allow: /
 Disallow: /node_modules/
 
 # XML Sitemap
-Sitemap: https://devstudiocreations.in/sitemap.xml
+Sitemap: https://www.devstudiocreations.in/sitemap.xml

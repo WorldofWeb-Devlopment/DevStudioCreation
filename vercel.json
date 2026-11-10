@@ -5,10 +5,21 @@
       "has": [
         {
           "type": "host",
+          "value": "devstudiocreations.in"
+        }
+      ],
+      "destination": "https://www.devstudiocreations.in/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
           "value": "dev-studio-creation.vercel.app"
         }
       ],
-      "destination": "https://devstudiocreations.in/$1",
+      "destination": "https://www.devstudiocreations.in/$1",
       "permanent": true
     }
   ],
